@@ -4,12 +4,12 @@
 When working with Android you may need to create a number of sizes of images for use in your project.  Doing this by hand can be painful as you need to resize and save many resolutions in a number of folders.
 
 ## Usage
-* Place this file in your project res folder something like __MyApplication\app\src\main\res__
+* Place this file in your project res folder something like __MyApplication\app\src\main\res\drawable-resize.py__
 * Place the source image you want to scale in the same location
 * Change to this directory on the command line then run
-* python drawable-resize.py myimage.png
+* python drawable-resize.py _myimage.png_
 
-This should create 5 copies of myimage.png in the following __folders__ at these __resolutions__
+This should create 5 copies of _myimage.png_ in the following __folders__ at these __resolutions__
 * drawable-xxxhdpi - 192x192
 * drawable-xxxhdpi - 180x180
 * drawable-xhdpi - 96x96
