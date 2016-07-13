@@ -1,5 +1,5 @@
-import sys
-import os
+import sys, os
+from PIL import Image
 
 def create_folder(folder_name):
     try:
@@ -24,8 +24,29 @@ def folder_check():
             create_folder(folder_name)
 
 
-print("Filename provided is", sys.argv[1])
-source_image = sys.argv[1]
+def output_images(source_image):
+    android_prefix = 'drawable-'
+    folder_to_pixel = {
+        'mdpi': (48, 48),
+        'hdpi': (72, 72),
+        'xhdpi': (96, 96),
+        'xxhdpi': (180, 180),
+        'xxxhdpi': (192, 192)
+    }
 
-android_pixel = [192, 180, 96, 72, 48]
-folder_check()
+    for folder in folder_to_pixel:
+        outfile = android_prefix + folder + '\\' + source_image
+
+        print ("Writing", outfile, folder_to_pixel[folder])
+        try:
+            im = Image.open(source_image)
+            im.thumbnail(folder_to_pixel[folder], Image.ANTIALIAS)
+            im.save(outfile, "PNG")
+        except IOError:
+            print ("cannot create thumbnail for '%s'" % source_image)
+
+# ---- Main ----
+source_image = sys.argv[1]
+print("Filename provided is", source_image)
+folder_check()  # Check folders exist and create if needed
+output_images(source_image)  # Output Images
