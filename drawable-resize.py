@@ -26,15 +26,30 @@ def folder_check():
             create_folder(folder_name)
 
 
-def output_images(source_image):
+def output_images(source_image, image_type):
     android_prefix = 'drawable-'
-    folder_to_pixel = {
+
+    icon_sizes = {
         'mdpi': (48, 48),
         'hdpi': (72, 72),
         'xhdpi': (96, 96),
         'xxhdpi': (180, 180),
         'xxxhdpi': (192, 192)
     }
+
+    image_sizes = {
+        'mdpi': (480, 480),
+        'hdpi': (720, 720),
+        'xhdpi': (960, 960),
+        'xxhdpi': (1800, 1800),
+        'xxxhdpi': (1920, 1920)
+    }
+
+    if image_type == 'icon':
+        folder_to_pixel = icon_sizes
+    else:
+        folder_to_pixel = image_sizes
+
 
     for folder in folder_to_pixel:
         outfile = android_prefix + folder + os.path.sep + source_image
@@ -51,8 +66,9 @@ def output_images(source_image):
 
 # ---- Main ----
 script_name = sys.argv[0]
-source_images = sys.argv[1:]
+image_type = sys.argv[1]
+source_images = sys.argv[2:]
 folder_check()  # Check folders exist and create if needed
 
 for image in source_images:
-    output_images(image)  # Output Images
+    output_images(image, image_type)  # Output Images
