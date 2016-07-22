@@ -13,10 +13,21 @@ def create_folder(folder_name):
 
 def folder_check():
     android_sizes = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
-    android_folder = 'drawable-'
+
 
     # check folders exist
-    print("Pre-check: looking for folders")
+    android_folder = 'drawable-'
+    print("Pre-check: looking for drawable folders")
+
+    for size in android_sizes:
+        folder_name = android_folder + size
+        if os.path.isdir(folder_name):
+            print("Folder", folder_name, "exists")
+        else:
+            create_folder(folder_name)
+
+    android_folder = 'mipmap-'
+    print("Pre-check: looking for mipmap folders")
 
     for size in android_sizes:
         folder_name = android_folder + size
@@ -27,7 +38,6 @@ def folder_check():
 
 
 def output_images(source_image, image_type):
-    android_prefix = 'drawable-'
 
     icon_sizes = {
         'mdpi': (48, 48),
@@ -47,9 +57,13 @@ def output_images(source_image, image_type):
 
     if image_type == 'icon':
         folder_to_pixel = icon_sizes
-    else:
+        android_prefix = 'mipmap-'
+    elif image_type == 'image':
         folder_to_pixel = image_sizes
-
+        android_prefix = 'drawable-'
+    else:
+        print("USAGE:", sys.argv[0], "icon|image", "filename.png")
+        exit()
 
     for folder in folder_to_pixel:
         outfile = android_prefix + folder + os.path.sep + source_image
