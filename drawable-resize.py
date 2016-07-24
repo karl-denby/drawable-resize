@@ -43,13 +43,13 @@ def output_images(source_image, folder_prefix, image_sizes):
 
 
 # ---- Main ----
-# scriptname.py icon|image filename1.png filename2.png
+# scriptname.py mipmap|drawable filename1.png filename2.png
 script_name = sys.argv[0]
 image_type = sys.argv[1]
 source_images = sys.argv[2:]
 
 # Sizes for mipmap launcher icons
-icon_sizes = {
+mipmap_sizes = {
     'ldpi': (36, 36),
     'mdpi': (48, 48),
     'hdpi': (72, 72),
@@ -58,8 +58,8 @@ icon_sizes = {
     'xxxhdpi': (192, 192)
 }
 
-# Sizes for general image resource
-image_sizes = {
+# Sizes for drawable image resource
+drawable_sizes = {
     'ldpi': (360, 360),
     'mdpi': (480, 480),
     'hdpi': (720, 720),
@@ -71,20 +71,17 @@ image_sizes = {
 # based on input provided in parameters
 # check for folders (create if needed)
 # for each image provided "2:" create an image at multiple densities
-if image_type == 'icon':
-    folder_prefix = 'mipmap'
-    image_scale = icon_sizes
-    folder_check(folder_prefix)  # Check folders exist. Create if needed.
-    for image in source_images:
-        output_images(image, folder_prefix, image_scale)  # Output Images
+# no valid input show the user an error message
 
-elif image_type == 'image':
-    folder_prefix = 'drawable'
-    image_scale = image_sizes
-    folder_check(folder_prefix)  # Check folders exist. Create if needed.
+if image_type == 'mipmap':
+    folder_check(image_type)  # Check folders exist. Create if needed.
     for image in source_images:
-        output_images(image, folder_prefix, image_scale)  # Output Images
+        output_images(image, image_type, mipmap_sizes)  # Output Images
 
-# if user didn't specify icon or image then show them how the script is run
+elif image_type == 'drawable':
+    folder_check(image_type)  # Check folders exist. Create if needed.
+    for image in source_images:
+        output_images(image, image_type, drawable_sizes)  # Output Images
+
 else:
-    print("USAGE:", sys.argv[0], "icon|image", "filename.png")
+    print("USAGE:", sys.argv[0], "mipmap|drawable", "filename.png")
